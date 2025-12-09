@@ -8,7 +8,7 @@ const productSchema = new mongoose.Schema(
     qty: { type: Number, required: true },
     minQty: { type: Number, required: true },
     images: [{ type: String }], 
-    paymentOptions: [{ type: String }], // e.g. [bkash", "cod"]
+    paymentOptions: [{ type: String }], // e.g. ["bkash", "cod"]
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
