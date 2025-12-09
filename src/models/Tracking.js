@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const trackingSchema = new mongoose.Schema(
   {
@@ -23,4 +23,4 @@ const trackingSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Tracking", trackingSchema);
+export default mongoose.model("Tracking", trackingSchema);

@@ -1,8 +1,11 @@
-require("dotenv").config();
-const express = require("express");
-const cors = require("cors");
-const cookieParser = require("cookie-parser");
-const connectDB = require("./config/db");
+import dotenv from "dotenv";
+import express from "express";
+import cors from "cors";
+import cookieParser from "cookie-parser";
+import connectDB from "./config/db.js";
+import authRoutes from "./routes/auth.js";
+
+dotenv.config();
 
 const app = express();
 
@@ -13,6 +16,9 @@ app.use(cors({
   credentials: true,
 }));
 app.use(cookieParser());
+
+// ===== Routes =====
+app.use("/api/auth", authRoutes);
 
 // ===== Test Route =====
 app.get("/", (req, res) => {

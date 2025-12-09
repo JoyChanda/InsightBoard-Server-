@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const productSchema = new mongoose.Schema(
   {
@@ -7,8 +7,8 @@ const productSchema = new mongoose.Schema(
     price: { type: Number, required: true },
     qty: { type: Number, required: true },
     minQty: { type: Number, required: true },
-    images: [{ type: String }], // array of image URLs
-    paymentOptions: [{ type: String }], // e.g. ["bkash", "cod"]
+    images: [{ type: String }], 
+    paymentOptions: [{ type: String }], // e.g. [bkash", "cod"]
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
@@ -17,4 +17,4 @@ const productSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Product", productSchema);
+export default mongoose.model("Product", productSchema);
