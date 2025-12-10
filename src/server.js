@@ -8,6 +8,7 @@ import productRoutes from "./routes/products.js";
 import orderRoutes from "./routes/orders.js";
 import usersRoutes from "./routes/users.js";
 import analyticsRoutes from "./routes/analytics.js";
+import trackingRoutes from "./routes/tracking.js";
 
 dotenv.config();
 
@@ -45,6 +46,7 @@ app.use("/api/products", productRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/users", usersRoutes);
 app.use("/api/analytics", analyticsRoutes);
+app.use("/api", trackingRoutes);
 
 // ===== Test Route =====
 app.get("/", (req, res) => {
