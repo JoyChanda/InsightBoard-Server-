@@ -1,19 +1,30 @@
 import mongoose from "mongoose";
+import dotenv from "dotenv";
 
-const uri = process.env.MONGO_URI;
+dotenv.config();
 
-async function connectDB() {
+export const connectDB = async () => {
   try {
+    const uri = process.env.MONGO_URI;
+    if (!uri) {
+      throw new Error("❌ MONGO_URI is missing in .env");
+    }
+
     await mongoose.connect(uri, {
-      serverSelectionTimeoutMS: 5000,
+      dbName: "insightboard",
+      serverApi: {
+        version: "1",
+        strict: true,
+        deprecationErrors: true,
+      }
     });
 
-    console.log("✅ MongoDB connected successfully with Mongoose!");
-  } catch (err) {
-    console.error("❌ MongoDB connection failed:", err);
+    console.log("✅ MongoDB Connected Successfully");
+  } catch (error) {
+    console.error("❌ MongoDB connection failed:", error);
     process.exit(1);
   }
-}
+};
 
 export default connectDB;
 
