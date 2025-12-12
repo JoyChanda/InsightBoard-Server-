@@ -16,7 +16,7 @@ export const connectDB = async () => {
         version: "1",
         strict: true,
         deprecationErrors: true,
-      }
+      },
     });
 
     console.log("✅ MongoDB Connected Successfully");
@@ -27,4 +27,3 @@ export const connectDB = async () => {
 };
 
 export default connectDB;
-

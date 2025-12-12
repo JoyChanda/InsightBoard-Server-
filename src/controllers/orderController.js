@@ -9,11 +9,15 @@ export const createOrder = async (req, res) => {
     const { product, qty } = req.body;
 
     if (!product || !qty) {
-      return res.status(400).json({ message: "Product and quantity are required" });
+      return res
+        .status(400)
+        .json({ message: "Product and quantity are required" });
     }
 
     if (qty <= 0) {
-      return res.status(400).json({ message: "Quantity must be greater than zero" });
+      return res
+        .status(400)
+        .json({ message: "Quantity must be greater than zero" });
     }
 
     // Check if product exists
@@ -24,7 +28,9 @@ export const createOrder = async (req, res) => {
 
     // Check if sufficient quantity available
     if (productDoc.qty < qty) {
-      return res.status(400).json({ message: `Only ${productDoc.qty} items available in stock` });
+      return res
+        .status(400)
+        .json({ message: `Only ${productDoc.qty} items available in stock` });
     }
 
     // Calculate total

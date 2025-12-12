@@ -7,9 +7,15 @@ const userSchema = new mongoose.Schema(
     password: { type: String, required: true },
     role: {
       type: String,
-      enum: ["buyer", "manager", "admin"],
+      enum: ["buyer", "manager", "admin", "superadmin"],
       default: "buyer",
     },
+    status: {
+      type: String,
+      enum: ["active", "suspended"],
+      default: "active",
+    },
+    suspendReason: { type: String },
   },
   { timestamps: true }
 );

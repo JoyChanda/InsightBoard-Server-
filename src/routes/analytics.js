@@ -1,11 +1,9 @@
 import express from "express";
 import { getAdminAnalytics } from "../controllers/analyticsController.js";
-import { auth } from "../middleware/auth.js";
-import { roleCheck } from "../middleware/roleCheck.js";
+import { verifyToken, verifyAdmin } from "../middleware/auth.js";
 
 const router = express.Router();
 
-// Admin-only analytics
-router.get("/", auth, roleCheck(["admin"]), getAdminAnalytics);
+router.get("/dashboard", verifyToken, verifyAdmin, getAdminAnalytics);
 
 export default router;

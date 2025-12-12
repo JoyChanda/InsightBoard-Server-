@@ -19,6 +19,20 @@ const orderSchema = new mongoose.Schema(
       enum: ["pending", "processing", "shipped", "delivered", "cancelled"],
       default: "pending",
     },
+    shippingAddress: { type: String, required: true },
+    contactNumber: { type: String, required: true },
+    receiverName: { type: String, required: true },
+    additionalNotes: { type: String },
+    paymentMethod: { type: String, required: true },
+    tracking: [
+      {
+        status: String, // e.g., "Cutting Completed"
+        location: String,
+        note: String,
+        date: { type: Date, default: Date.now },
+      },
+    ],
+    approvedAt: { type: Date },
   },
   { timestamps: true }
 );

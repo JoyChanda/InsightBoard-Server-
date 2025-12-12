@@ -5,7 +5,7 @@ import cookieParser from "cookie-parser";
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/auth.js";
 import productRoutes from "./routes/products.js";
-import orderRoutes from "./routes/orders.js";
+import orderRoutes from "./routes/bookings.js"; // USING bookings.js AS THE ORDER ROUTE HANDLER
 import usersRoutes from "./routes/users.js";
 import analyticsRoutes from "./routes/analytics.js";
 import trackingRoutes from "./routes/tracking.js";
@@ -43,7 +43,7 @@ app.use(
 // ===== Routes =====
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
-app.use("/api/orders", orderRoutes);
+app.use("/api/bookings", orderRoutes);
 app.use("/api/users", usersRoutes);
 app.use("/api/analytics", analyticsRoutes);
 app.use("/api", trackingRoutes);
@@ -70,7 +70,32 @@ app.use((err, req, res, next) => {
 // ===== Start Server =====
 const PORT = process.env.PORT || 5000;
 
-connectDB().then(() => {
+// Seeding Super Admin
+import User from './models/User.js';
+import bcrypt from 'bcryptjs';
+
+async function createSuperAdmin() {
+  try {
+    const exists = await User.findOne({ role: 'superadmin' });
+    if (exists) return;
+
+    const hashed = await bcrypt.hash("superadmin123", 10);
+
+    await User.create({
+      name: "Super Admin",
+      email: "super@insideboard.com",
+      password: hashed,
+      role: "superadmin"
+    });
+
+    console.log("🌟 Super Admin created!");
+  } catch (err) {
+    console.error("Super Admin Seed Error:", err);
+  }
+}
+
+connectDB().then(async () => {
+  await createSuperAdmin();
   app.listen(PORT, () =>
     console.log(`🚀 Server running on http://localhost:${PORT}`)
   );
