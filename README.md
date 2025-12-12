@@ -1,5 +1,7 @@
 # 🖥️ InsightBoard Server
 
+## admin-panel_URL: https://insight-board-client.vercel.app/admin-access
+
 ## 📌 Project Overview
 
 **InsightBoard Server** is the backend for the InsightBoard application — a complete order and production tracking system.  
@@ -118,36 +120,36 @@ npm install -D nodemon
 
 ### Products
 
-| Method | Endpoint           | Description        | Access  |
-| ------ | ------------------ | ------------------ | ------- |
-| GET    | `/api/products`    | Get all products   | Public  |
-| GET    | `/api/products/:id`| Get single product | Public  |
-| POST   | `/api/products`    | Create product     | Manager |
-| PATCH  | `/api/products/:id`| Update product     | Manager |
-| DELETE | `/api/products/:id`| Delete product     | Manager |
+| Method | Endpoint            | Description        | Access  |
+| ------ | ------------------- | ------------------ | ------- |
+| GET    | `/api/products`     | Get all products   | Public  |
+| GET    | `/api/products/:id` | Get single product | Public  |
+| POST   | `/api/products`     | Create product     | Manager |
+| PATCH  | `/api/products/:id` | Update product     | Manager |
+| DELETE | `/api/products/:id` | Delete product     | Manager |
 
 ### Orders
 
-| Method | Endpoint           | Description          | Access |
-| ------ | ------------------ | -------------------- | ------ |
-| GET    | `/api/orders`      | Get user's orders    | Auth   |
-| POST   | `/api/orders`      | Create new order     | Auth   |
-| PATCH  | `/api/orders/:id`  | Update order         | Auth   |
+| Method | Endpoint          | Description       | Access |
+| ------ | ----------------- | ----------------- | ------ |
+| GET    | `/api/orders`     | Get user's orders | Auth   |
+| POST   | `/api/orders`     | Create new order  | Auth   |
+| PATCH  | `/api/orders/:id` | Update order      | Auth   |
 
 ### Tracking
 
-| Method | Endpoint                     | Description             | Access        |
-| ------ | ---------------------------- | ----------------------- | ------------- |
-| GET    | `/api/orders/:id/tracking`   | Get order timeline      | Auth          |
-| POST   | `/api/orders/:id/tracking`   | Add tracking update     | Admin/Manager |
+| Method | Endpoint                   | Description         | Access        |
+| ------ | -------------------------- | ------------------- | ------------- |
+| GET    | `/api/orders/:id/tracking` | Get order timeline  | Auth          |
+| POST   | `/api/orders/:id/tracking` | Add tracking update | Admin/Manager |
 
 ### Users (Admin)
 
-| Method | Endpoint                  | Description       | Access |
-| ------ | ------------------------- | ----------------- | ------ |
-| GET    | `/api/users`              | List all users    | Admin  |
-| PATCH  | `/api/users/:id/role`     | Change user role  | Admin  |
-| PATCH  | `/api/users/:id/suspend`  | Suspend user      | Admin  |
+| Method | Endpoint                 | Description      | Access |
+| ------ | ------------------------ | ---------------- | ------ |
+| GET    | `/api/users`             | List all users   | Admin  |
+| PATCH  | `/api/users/:id/role`    | Change user role | Admin  |
+| PATCH  | `/api/users/:id/suspend` | Suspend user     | Admin  |
 
 ### Analytics (Admin)
 
