@@ -3,6 +3,8 @@ import jwt from "jsonwebtoken";
 // Main verification middleware
 export const auth = (req, res, next) => {
   try {
+    // DEBUG LOG
+    console.log("Middleware Auth - Cookies:", req.cookies);
     const token = req.cookies?.token;
 
     if (!token) {

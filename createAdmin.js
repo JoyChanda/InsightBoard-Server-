@@ -11,17 +11,17 @@ const recreateAdmin = async () => {
     console.log("✅ Connected to MongoDB\n");
 
     // Delete existing admin user
-    const deleted = await User.deleteOne({ email: "admin@insightboard.com" });
+    const deleted = await User.deleteOne({ email: "superadmin@insightboard.com" });
     if (deleted.deletedCount > 0) {
       console.log("🗑️  Deleted existing admin user\n");
     }
 
     // Admin user details
     const adminData = {
-      name: "Admin User",
-      email: "admin@insightboard.com",
+      name: "Super Admin",
+      email: "superadmin@insightboard.com",
       password: "admin123",
-      role: "admin",
+      role: "superadmin",
       status: "active",
     };
 

@@ -72,7 +72,7 @@ router.get("/pending", verifyToken, verifyManager, checkActive, async (req, res)
 // Get Approved Orders (Manager)
 router.get("/approved", verifyToken, verifyManager, async (req, res) => {
   try {
-    const orders = await Order.find({ status: { $ne: "pending" } }).populate("product").populate("buyer", "name email");
+    const orders = await Order.find({ status: { $nin: ["pending", "rejected", "cancelled"] } }).populate("product").populate("buyer", "name email");
     res.json(orders);
   } catch (err) {
     res.status(500).json({ message: err.message });

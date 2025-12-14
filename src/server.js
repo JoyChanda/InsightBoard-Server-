@@ -6,6 +6,7 @@ import connectDB from "./config/db.js";
 import authRoutes from "./routes/auth.js";
 import productRoutes from "./routes/products.js";
 import orderRoutes from "./routes/bookings.js"; // USING bookings.js AS THE ORDER ROUTE HANDLER
+import newOrderRoutes from "./routes/orders.js"; // New implementation
 import usersRoutes from "./routes/users.js";
 import analyticsRoutes from "./routes/analytics.js";
 import trackingRoutes from "./routes/tracking.js";
@@ -22,6 +23,7 @@ app.use(cookieParser());
 // ===== CORS Config =====
 const allowedOrigins = [
   "http://localhost:5173",           // dev frontend (Vite)
+  "http://localhost:5174",           // dev frontend (Vite alt)
   "http://localhost:3000",           // dev frontend (CRA)
   process.env.CLIENT_URL,            // production frontend from env
 ].filter(Boolean);
@@ -43,7 +45,8 @@ app.use(
 // ===== Routes =====
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
-app.use("/api/bookings", orderRoutes);
+app.use("/api/bookings", orderRoutes); // Keeping legacy for safety temporarily
+app.use("/api/orders", newOrderRoutes); // New standard routes
 app.use("/api/users", usersRoutes);
 app.use("/api/analytics", analyticsRoutes);
 app.use("/api", trackingRoutes);
@@ -96,7 +99,8 @@ async function createSuperAdmin() {
 
 connectDB().then(async () => {
   await createSuperAdmin();
-  app.listen(PORT, () =>
-    console.log(`🚀 Server running on http://localhost:${PORT}`)
-  );
+  app.listen(PORT, () => {
+    console.log(`🚀 Server running on http://localhost:${PORT}`);
+    console.log(`ℹ️  Environment: ${process.env.NODE_ENV || 'development'}`);
+  });
 });

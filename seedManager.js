@@ -1,41 +1,42 @@
-import mongoose from "mongoose";
-import dotenv from "dotenv";
-import bcrypt from "bcryptjs";
-import User from "./src/models/User.js";
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+import bcrypt from 'bcryptjs';
+import User from './src/models/User.js';
 
 dotenv.config();
 
 const seedManager = async () => {
   try {
-    await mongoose.connect(process.env.MONGO_URI);
-    console.log("MongoDB Connected");
-
-    const email = "tm2@gmail.com";
-    const existingUser = await User.findOne({ email });
-
-    if (existingUser) {
-        // Always update password and role for test consistency
-        const hashedPassword = await bcrypt.hash("Abc123456", 10);
-        existingUser.password = hashedPassword;
-        if (existingUser.role !== 'manager') {
-            existingUser.role = 'manager';
-        }
-        await existingUser.save();
-        console.log("Existing user updated with new password/role");
-    } else {
-        const hashedPassword = await bcrypt.hash("Abc123456", 10);
-        await User.create({
-            name: "Manager TM2",
-            email,
-            password: hashedPassword,
-            role: "manager"
-        });
-        console.log("Manager user created");
+    const mongoUri = process.env.MONGO_URI;
+    if (!mongoUri) {
+        throw new Error("MONGO_URI not found in environment variables");
     }
+
+    // Explicitly connect to 'insightboard' database to prevent writing to test db
+    await mongoose.connect(mongoUri, { dbName: 'insightboard' });
+    console.log("Connected to MongoDB: insightboard");
+    
+    // Check if user exists in THIS database
+    const email = "testmanager@gmail.com";
+    await User.deleteOne({ email });
+    console.log("Cleaned up existing manager user if present.");
+
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash("Abc123456", salt);
+    
+    await User.create({
+        name: "Test Manager",
+        email,
+        password: hashedPassword,
+        role: "manager",
+        status: "active"
+    });
+    console.log("✅ Manager user seeded successfully in 'insightboard' database.");
+    console.log(`Credentials: ${email} / Abc123456`);
 
     process.exit();
   } catch (error) {
-    console.error(error);
+    console.error("Error seeding manager:", error);
     process.exit(1);
   }
 };
