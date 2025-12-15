@@ -41,7 +41,7 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-app.options("(.*)", cors(corsOptions)); // Handle preflight requests
+// app.options("*", cors(corsOptions)); // Removed to fix PathError compat issues
 
 // ===== Middlewares =====
 app.use(express.json());
