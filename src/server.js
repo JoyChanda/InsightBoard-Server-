@@ -22,11 +22,11 @@ app.use(cookieParser());
 
 // ===== CORS Config =====
 const allowedOrigins = [
-  "http://localhost:5173",           // dev frontend (Vite)
-  "http://localhost:5174",           // dev frontend (Vite alt)
-  "http://localhost:3000",           // dev frontend (CRA)
-  process.env.CLIENT_URL,            // production frontend from env
-].filter(Boolean);
+  "http://localhost:5173",
+  "http://localhost:5174",
+  "http://localhost:3000", 
+  process.env.CLIENT_URL?.replace(/\/$/, ""), // Strip trailing slash just in case
+];
 
 app.use(
   cors({
@@ -38,7 +38,9 @@ app.use(
         callback(new Error("CORS not allowed"));
       }
     },
-    credentials: true, // allow cookies
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
