@@ -22,6 +22,7 @@ const allowedOrigins = [
   "http://localhost:3000",
   "https://insight-board-client.vercel.app", // Explicitly added without trailing slash
   process.env.CLIENT_URL?.replace(/\/$/, ""), // Dynamic env var (stripped)
+  process.env.FRONTEND_URL?.replace(/\/$/, ""), // Backup env var
 ].filter(Boolean); // Remove any undefined/null values
 
 const corsOptions = {
