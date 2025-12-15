@@ -15,35 +15,37 @@ dotenv.config();
 
 const app = express();
 
-// ===== Middlewares =====
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
-
-// ===== CORS Config =====
+// ===== CORS Config (MUST BE FIRST) =====
 const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:5174",
   "http://localhost:3000",
-  "https://insight-board-client.vercel.app/",
-  process.env.CLIENT_URL?.replace(/\/$/, ""), // Strip trailing slash just in case
-];
+  "https://insight-board-client.vercel.app", // Explicitly added without trailing slash
+  process.env.CLIENT_URL?.replace(/\/$/, ""), // Dynamic env var (stripped)
+].filter(Boolean); // Remove any undefined/null values
 
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      // Allow requests with no origin (mobile apps, Postman, etc.)
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("CORS not allowed"));
-      }
-    },
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-  })
-);
+const corsOptions = {
+  origin: (origin, callback) => {
+    // Allow requests with no origin (mobile apps, Postman, etc.)
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      console.log(`Blocked by CORS: ${origin}`); // Debug log
+      callback(new Error("CORS not allowed"));
+    }
+  },
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization", "Access-Control-Allow-Credentials"],
+};
+
+app.use(cors(corsOptions));
+app.options("*", cors(corsOptions)); // Handle preflight requests
+
+// ===== Middlewares =====
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 // ===== Routes =====
 app.use("/api/auth", authRoutes);
