@@ -24,7 +24,8 @@ app.use(cookieParser());
 const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:5174",
-  "http://localhost:3000", 
+  "http://localhost:3000",
+  "https://insight-board-client.vercel.app/",
   process.env.CLIENT_URL?.replace(/\/$/, ""), // Strip trailing slash just in case
 ];
 
@@ -76,12 +77,12 @@ app.use((err, req, res, next) => {
 const PORT = process.env.PORT || 5000;
 
 // Seeding Super Admin
-import User from './models/User.js';
-import bcrypt from 'bcryptjs';
+import User from "./models/User.js";
+import bcrypt from "bcryptjs";
 
 async function createSuperAdmin() {
   try {
-    const exists = await User.findOne({ role: 'superadmin' });
+    const exists = await User.findOne({ role: "superadmin" });
     if (exists) return;
 
     const hashed = await bcrypt.hash("superadmin123", 10);
@@ -90,7 +91,7 @@ async function createSuperAdmin() {
       name: "Super Admin",
       email: "super@insideboard.com",
       password: hashed,
-      role: "superadmin"
+      role: "superadmin",
     });
 
     console.log("🌟 Super Admin created!");
@@ -103,6 +104,6 @@ connectDB().then(async () => {
   await createSuperAdmin();
   app.listen(PORT, () => {
     console.log(`🚀 Server running on http://localhost:${PORT}`);
-    console.log(`ℹ️  Environment: ${process.env.NODE_ENV || 'development'}`);
+    console.log(`ℹ️  Environment: ${process.env.NODE_ENV || "development"}`);
   });
 });
